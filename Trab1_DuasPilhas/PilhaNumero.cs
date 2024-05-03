@@ -110,14 +110,14 @@ namespace Trab1_DuasPilhas
         public float getValores(int tamanho)
         {
             Numero aux = topo;
-            int valor = 0, contador = 0;
+            float valor = 0, contador = 0;
             float valorResult = 0;
             if (!vazia())
             {
                 switch (tamanho)
                 {
                     case 0: // pega o menor valor
-                        valorResult = aux.getNumero();
+                        valor = valorResult = aux.getNumero();
                         do
                         {
                             aux = aux.getAnterior();
@@ -132,6 +132,7 @@ namespace Trab1_DuasPilhas
                         } while (aux != null);
                         break;
                     case 1: // pega o maior valor
+                        valor = valorResult = aux.getNumero();
                         do
                         {
                             aux = aux.getAnterior();

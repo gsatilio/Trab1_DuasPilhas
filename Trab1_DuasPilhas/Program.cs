@@ -15,6 +15,7 @@ internal class Program
         PilhaNumero pilha1 = new PilhaNumero();
         PilhaNumero pilha2 = new PilhaNumero();
         PilhaNumero pilhaAux = new PilhaNumero();
+        PilhaNumero pilha_opc = new PilhaNumero(); ;
         int aleatorio, opc, opcpilha;
 
         aleatorio = new Random().Next(1, 20);
@@ -31,41 +32,52 @@ internal class Program
 
         do
         {
-            Console.WriteLine("\nOlá, duas pilhas foram criadas aleatoriamente.\n1 - Verificar o tamanho das pilhas");
+            Console.Clear();
+            Console.WriteLine("1 - Verificar o tamanho das pilhas");
             Console.WriteLine("2 - Verificar maior, menor, média aritmética de uma pilha");
-            Console.WriteLine("3 - Transferir/Imprimir uma pilha para outra auxiliar");
+            Console.WriteLine("3 - Transferir uma pilha para outra auxiliar");
             Console.WriteLine("4 - Imprimir números pares/impares de uma pilha");
-            Console.WriteLine("5 - Limpar a tela");
             Console.WriteLine("0 - Sair do programa");
             opc = int.Parse(Console.ReadLine());
 
             switch (opc)
             {
+                case 0:
+                    Console.WriteLine("Até mais");
+                    break;
                 case 1:
                     compararPilhas(pilha1, pilha2);
+                    Console.WriteLine("Aperte qualquer tecla para continuar...");
+                    Console.ReadKey();
                     break;
                 case 2:
                     do
                     {
-                        Console.WriteLine("Digite 1 para a Pilha 1 ou 2 para a Pilha 2.");
+                        Console.WriteLine("Digite 1 para a Pilha 1, 2 para a Pilha 2 ou 3 para a Pilha Auxiliar.");
                         opcpilha = int.Parse(Console.ReadLine());
-                    } while ((opcpilha < 1) && (opcpilha > 2));
+                    } while ((opcpilha < 1) && (opcpilha > 3));
                     switch (opcpilha)
                     {
                         case 1:
-                            valoresPilhas(pilha1);
+                            pilha_opc = pilha1;
+                            break;
+                        case 2:
+                            pilha_opc = pilha2;
                             break;
                         default:
-                            valoresPilhas(pilha2);
+                            pilha_opc = pilhaAux;
                             break;
                     }
+                    retornarNumeros(pilha_opc, 2);
+                    valoresPilhas(pilha_opc);
+                    Console.WriteLine("Aperte qualquer tecla para continuar...");
+                    Console.ReadKey();
                     break;
                 case 3:
                     do
                     {
-                        Console.WriteLine("Digite:\n1 - para transferir a Pilha 1");
-                        Console.WriteLine("2 - para transferir a Pilha 2");
-                        Console.WriteLine("0 - para imprimir a Pilha Transferida");
+                        Console.WriteLine("Digite:\n1 - para transferir da Pilha 1");
+                        Console.WriteLine("2 - para transferir da Pilha 2");
                         opcpilha = int.Parse(Console.ReadLine());
                     } while ((opcpilha < 1) && (opcpilha > 2));
                     switch (opcpilha)
@@ -77,31 +89,38 @@ internal class Program
                             pilhaAux = transferirPilha(pilha2);
                             break;
                     }
-                    Console.WriteLine("Todos os Números da Pilha Transferida:");
+                    Console.WriteLine($"Todos os Números da Pilha {opcpilha} Transferida:");
                     retornarNumeros(pilhaAux, 2);
+                    Console.WriteLine("Aperte qualquer tecla para continuar...");
+                    Console.ReadKey();
                     break;
                 case 4:
                     do
                     {
-                        Console.WriteLine("Digite 1 para a Pilha 1 ou 2 para a Pilha 2.");
+                        Console.WriteLine("Digite 1 para a Pilha 1, 2 para a Pilha 2 ou 3 para a Pilha Auxiliar");
                         opcpilha = int.Parse(Console.ReadLine());
                     } while ((opcpilha < 1) && (opcpilha > 2));
                     switch (opcpilha)
                     {
                         case 1:
-                            retornarNumeros(pilha1, 2);
-                            retornarNumeros(pilha1, 0);
-                            retornarNumeros(pilha1, 1);
+                            pilha_opc = pilha1;
+                            break;
+                        case 2:
+                            pilha_opc = pilha2;
                             break;
                         default:
-                            retornarNumeros(pilha2, 2);
-                            retornarNumeros(pilha2, 0);
-                            retornarNumeros(pilha2, 1);
+                            pilha_opc = pilhaAux;
                             break;
                     }
+                    retornarNumeros(pilha_opc, 0);
+                    retornarNumeros(pilha_opc, 1);
+                    Console.WriteLine("Aperte qualquer tecla para continuar...");
+                    Console.ReadKey();
                     break;
-                case 5:
-                    Console.Clear();
+                default:
+                    Console.WriteLine("Opção inválida");
+                    Console.WriteLine("Aperte qualquer tecla para continuar...");
+                    Console.ReadKey();
                     break;
             }
         } while (opc != 0);
