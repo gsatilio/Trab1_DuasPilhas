@@ -14,7 +14,7 @@ internal class Program
     {
         PilhaNumero pilha1 = new PilhaNumero();
         PilhaNumero pilha2 = new PilhaNumero();
-        PilhaNumero pilhaaux = new PilhaNumero();
+        PilhaNumero pilhaAux = new PilhaNumero();
         int aleatorio, opc, opcpilha;
 
         aleatorio = new Random().Next(1, 20);
@@ -33,7 +33,7 @@ internal class Program
         {
             Console.WriteLine("\nOlá, duas pilhas foram criadas aleatoriamente.\n1 - Verificar o tamanho das pilhas");
             Console.WriteLine("2 - Verificar maior, menor, média aritmética de uma pilha");
-            Console.WriteLine("3 - Transferir uma pilha para outra auxiliar");
+            Console.WriteLine("3 - Transferir/Imprimir uma pilha para outra auxiliar");
             Console.WriteLine("4 - Imprimir números pares/impares de uma pilha");
             Console.WriteLine("5 - Limpar a tela");
             Console.WriteLine("0 - Sair do programa");
@@ -49,43 +49,43 @@ internal class Program
                     {
                         Console.WriteLine("Digite 1 para a Pilha 1 ou 2 para a Pilha 2.");
                         opcpilha = int.Parse(Console.ReadLine());
-                    } while ((opcpilha != 1) && (opcpilha != 2));
+                    } while ((opcpilha < 1) && (opcpilha > 2));
                     switch (opcpilha)
                     {
                         case 1:
-                            pilhaaux = transferirPilha(pilha1);
+                            valoresPilhas(pilha1);
                             break;
                         default:
-                            pilhaaux = transferirPilha(pilha2);
+                            valoresPilhas(pilha2);
                             break;
                     }
                     break;
                 case 3:
                     do
                     {
-                        Console.WriteLine("Digite 1 para a Pilha 1 ou 2 para a Pilha 2.");
+                        Console.WriteLine("Digite:\n1 - para transferir a Pilha 1");
+                        Console.WriteLine("2 - para transferir a Pilha 2");
+                        Console.WriteLine("0 - para imprimir a Pilha Transferida");
                         opcpilha = int.Parse(Console.ReadLine());
-                    } while ((opcpilha != 1) && (opcpilha != 2));
+                    } while ((opcpilha < 1) && (opcpilha > 2));
                     switch (opcpilha)
                     {
                         case 1:
-                            retornarNumeros(pilha1, 2);
-                            retornarNumeros(pilha1, 0);
-                            retornarNumeros(pilha1, 1);
+                            pilhaAux = transferirPilha(pilha1);
                             break;
                         default:
-                            retornarNumeros(pilha2, 2);
-                            retornarNumeros(pilha2, 0);
-                            retornarNumeros(pilha2, 1);
+                            pilhaAux = transferirPilha(pilha2);
                             break;
                     }
+                    Console.WriteLine("Todos os Números da Pilha Transferida:");
+                    retornarNumeros(pilhaAux, 2);
                     break;
                 case 4:
                     do
                     {
                         Console.WriteLine("Digite 1 para a Pilha 1 ou 2 para a Pilha 2.");
                         opcpilha = int.Parse(Console.ReadLine());
-                    } while ((opcpilha != 1) && (opcpilha != 2));
+                    } while ((opcpilha < 1) && (opcpilha > 2));
                     switch (opcpilha)
                     {
                         case 1:
@@ -109,8 +109,8 @@ internal class Program
     static void compararPilhas(PilhaNumero p1, PilhaNumero p2)
     {
         int p1s, p2s;
-        p1s = p1.contagem();
-        p2s = p2.contagem();
+        p1s = p1.getContador();
+        p2s = p2.getContador();
 
         if (p1s == p2s)
         {
@@ -128,11 +128,11 @@ internal class Program
     static void valoresPilhas(PilhaNumero pilha)
     {
         float resultado = 0;
-        resultado = pilha.getTamanho(0);
+        resultado = pilha.getValores(0);
         Console.WriteLine($"O menor valor da pilha é: {resultado}");
-        resultado = pilha.getTamanho(1);
+        resultado = pilha.getValores(1);
         Console.WriteLine($"O maior valor da pilha é: {resultado}");
-        resultado = pilha.getTamanho(2);
+        resultado = pilha.getValores(2);
         Console.WriteLine($"A média aritmética pilha é: {resultado}");
     }
     static Numero geraNumero()
@@ -151,17 +151,31 @@ internal class Program
                 Console.WriteLine("Números ímpares: " + pilha.print(1));
                 break;
             case 2:
-                Console.WriteLine("Todos os números da pilha: " + pilha.print(2));
+                Console.WriteLine(pilha.print(2));
                 break;
         }
     }
     static PilhaNumero transferirPilha(PilhaNumero pilha)
     {
+        int tamanhoPilha = 0;
+
+        Numero aux, auxFinal;
         PilhaNumero tempAux = new PilhaNumero();
         PilhaNumero tempFinal = new PilhaNumero();
 
-        pilha.pop();
-
-        return tempFinal;
+        Console.WriteLine("Todos os Números da pilha original:");
+        retornarNumeros(pilha, 2);
+        tamanhoPilha = pilha.getContador(); // verifico o tamanho da pilha que vou transferir 
+        for (int i = 0; i < tamanhoPilha; i++)
+        {
+            aux = new Numero(pilha.pop()); // faço um pop na pilha e insiro numa pilha auxiliar
+            tempAux.push(aux);
+        }
+        for (int i = 0; i < tamanhoPilha; i++)
+        {
+            auxFinal = new Numero(tempAux.pop()); // faço pop da auxiliar e insiro na auxiliar final
+            tempFinal.push(auxFinal);
+        }
+        return tempFinal; // retorno a auxiliar final
     }
 }

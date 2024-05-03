@@ -27,12 +27,29 @@ namespace Trab1_DuasPilhas
                 topo = aux;
             }
         }
-        public void pop()
+        public int pop()
         {
+            int valor = 0;
             if (!vazia())
             {
+                valor = topo.getNumero();
                 topo = topo.getAnterior();
             }
+            return valor;
+        }
+        public int getContador()
+        {
+            int contador = 0;
+            Numero aux = topo;
+            if (!vazia())
+            {
+                do
+                {
+                    contador++;
+                    aux = aux.getAnterior();
+                } while (aux != null);
+            }
+            return contador;
         }
         bool vazia()
         {
@@ -49,107 +66,102 @@ namespace Trab1_DuasPilhas
         {
             Numero aux = topo;
             string texto = "";
-            switch (tipo)
+            if (!vazia())
             {
-                case 0: // pares
-                    do
-                    {
-                        if (aux != null)
+                switch (tipo)
+                {
+                    case 0: // pares
+                        do
                         {
-                            if (aux.getNumero() % 2 == 0)
+                            if (aux != null)
                             {
-                                texto += $"{aux.ToString()} ";
+                                if (aux.getNumero() % 2 == 0)
+                                {
+                                    texto += $"{aux.ToString()} ";
+                                }
                             }
-                        }
-                        aux = aux.getAnterior();
-                    } while (aux != null);
-                    break;
-                case 1: // impares
-                    do
-                    {
-                        if (aux != null)
+                            aux = aux.getAnterior();
+                        } while (aux != null);
+                        break;
+                    case 1: // impares
+                        do
                         {
-                            if (aux.getNumero() % 2 != 0)
+                            if (aux != null)
                             {
-                                texto += $"{aux.ToString()} ";
+                                if (aux.getNumero() % 2 != 0)
+                                {
+                                    texto += $"{aux.ToString()} ";
+                                }
                             }
-                        }
-                        aux = aux.getAnterior();
-                    } while (aux != null);
-                    break;
-                default: // todos os numeros
-                    do
-                    {
-                        texto += $"{aux.ToString()} ";
-                        aux = aux.getAnterior();
-                    } while (aux != null);
-                    break;
+                            aux = aux.getAnterior();
+                        } while (aux != null);
+                        break;
+                    default: // todos os numeros
+                        do
+                        {
+                            texto += $"{aux.ToString()} ";
+                            aux = aux.getAnterior();
+                        } while (aux != null);
+                        break;
+                }
             }
             return texto;
         }
-        public int contagem()
-        {
-            Numero aux = topo;
-            int contador = 0;
-            do
-            {
-                contador++;
-                aux = aux.getAnterior();
-            } while (aux != null);
-            return contador;
-        }
-        public float getTamanho(int tamanho)
+        public float getValores(int tamanho)
         {
             Numero aux = topo;
             int valor = 0, contador = 0;
             float valorResult = 0;
-            switch (tamanho)
+            if (!vazia())
             {
-                case 0: // pega o menor valor
-                    valorResult = aux.getNumero();
-                    do
-                    {
-                        aux = aux.getAnterior();
-                        if (aux != null)
+                switch (tamanho)
+                {
+                    case 0: // pega o menor valor
+                        valorResult = aux.getNumero();
+                        do
                         {
-                            valor = aux.getNumero();
-                        }
-                        if (valor < valorResult)
+                            aux = aux.getAnterior();
+                            if (aux != null)
+                            {
+                                valor = aux.getNumero();
+                            }
+                            if (valor < valorResult)
+                            {
+                                valorResult = valor;
+                            }
+                        } while (aux != null);
+                        break;
+                    case 1: // pega o maior valor
+                        do
                         {
-                            valorResult = valor;
-                        }
-                    } while (aux != null);
-                    break;
-                case 1: // pega o maior valor
-                    do
-                    {
-                        aux = aux.getAnterior();
-                        if (aux != null)
+                            aux = aux.getAnterior();
+                            if (aux != null)
+                            {
+                                valor = aux.getNumero();
+                            }
+                            if (valor > valorResult)
+                            {
+                                valorResult = valor;
+                            }
+                        } while (aux != null);
+                        break;
+                    default:
+                        valor = aux.getNumero();
+                        do
                         {
-                            valor = aux.getNumero();
-                        }
-                        if (valor > valorResult)
+                            contador++;
+                            aux = aux.getAnterior();
+                            if (aux != null)
+                            {
+                                valor += aux.getNumero();
+                            }
+                        } while (aux != null);
+                        if (contador > 0)
                         {
-                            valorResult = valor;
+                            valorResult = (valor / contador);
                         }
-                    } while (aux != null);
-                    break;
-                default:
-                    valor = aux.getNumero();
-                    do
-                    {
-                        contador++;
-                        aux = aux.getAnterior();
-                        if (aux != null)
-                        {
-                            valor += aux.getNumero();
-                        }
-                    } while (aux != null);
-                    if (contador > 0)
-                    {
-                        valorResult = (valor / contador);
-                    }
-                    break;
+                        break;
+                }
             }
             return valorResult;
         }
